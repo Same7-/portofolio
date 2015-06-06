@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,30 +19,37 @@ import java.util.ArrayList;
  * Created by sameh on 6/6/2015.
  */
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder>  {
+
     private ArrayList<CardModel> mDataset;
 
-    Context ctx;
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+     private IMyViewHolderClicks clickListener;
+
+    static Context ctx;
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView description;
         LinearLayout image;
         public ViewHolder(View v) {
             super(v);
             description = (TextView) v.findViewById(R.id.info_text);
             image = (LinearLayout) v.findViewById(R.id.app_image);
+            v.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(v,getAdapterPosition());
+        }
+
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
+
+
     public RecycleAdapter(ArrayList<CardModel> myDataset,Context context) {
         ctx = context;
         mDataset = myDataset;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public RecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)
     {
@@ -69,5 +78,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public void setOnItemClickListener(final IMyViewHolderClicks listener){
+        this.clickListener = listener;
+
     }
 }

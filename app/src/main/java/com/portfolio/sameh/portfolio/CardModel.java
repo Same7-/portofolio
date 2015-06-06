@@ -7,20 +7,10 @@ public class CardModel {
 
     private String description;
 
-    public CardModel(String description, int imageId) {
+    public CardModel(String description) {
         this.description = description;
-        this.imageId = imageId;
     }
 
-    private int imageId;
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
-    }
 
     public String getDescription() {
         return description;
